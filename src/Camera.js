@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import Canvas from "./canvas";
+import Canvas from "./canvas1";
 export default function Camera() {
   const videoRef = useRef(null);
 
