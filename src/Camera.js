@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import Canvas from "./Canvas";
+import Canvas from "./canvas";
 export default function Camera() {
   const videoRef = useRef(null);
 
@@ -41,21 +41,6 @@ export default function Camera() {
     if (!video) return;
 
     setVideoList((prev) => [...prev, video]);
-
-    // canvas.toBlob(async (blob) => {
-    //   if (blob) {
-    //     const file = new File([blob], `${new Date().getTime()}.png`, {
-    //       type: blob.type,
-    //     });
-
-    //     const img = document.createElement("myImg");
-    //     img.src = URL.createObjectURL(file);
-    //     img.onload = function () {
-    //       window.URL.revokeObjectURL(this.src);
-    //     };
-    //     return file;
-    //   }
-    // });
   };
 
   return (
@@ -65,9 +50,11 @@ export default function Camera() {
       </button>
       <video ref={videoRef} autoPlay playsInline />
       <button onClick={capturePhoto}>사진 찍기</button>
-      {videoList.map((video, key) => {
-        return <Canvas key={key} video={video} />;
-      })}
+      <div className="canvas-wrapper">
+        {videoList.map((video, key) => {
+          return <Canvas key={key} video={video} />;
+        })}
+      </div>
     </div>
   );
 }

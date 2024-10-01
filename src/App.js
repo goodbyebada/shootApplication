@@ -1,15 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Camera from "./Camera";
-import Memo from "./Memo";
-import MyNote from "./MyNote";
+import OCRcomponent from "./OCRcomponent";
 
 function App() {
   return (
     <div className="App">
+      <OCRcomponent />
       <Camera />
-
-      <MyNote />
     </div>
   );
 }
