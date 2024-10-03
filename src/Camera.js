@@ -57,7 +57,7 @@ export default function Camera() {
     };
 
     const cameraConstrains = {
-      video: { deviceID: { exact: deviceID } },
+      video: { deviceID: deviceID },
     }; //해당 deviceid 카메라 요청 코드
 
     try {
