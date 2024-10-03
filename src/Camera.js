@@ -8,14 +8,20 @@ export default function Camera() {
 
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [videoList, setVideoList] = useState([]);
-  const [camList, setCamList] = useState([{ id: "fnf", label: "sdfs" }]);
   const [camType, setCamType] = useState("");
+  const [camList, setCamList] = useState([]);
+  const [selectedCam, setSelectedCam] = useState("");
 
+  /**
+   * 카메라 정보를 가져온다.
+   */
   async function getCameras() {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
 
       const cameras = devices.filter((device) => device.kind === "videoinput");
+      setCamList(cameras);
+
       const currentCamera = myStream.getVideoTracks()[0];
       cameras.forEach((camera) => {
         const option = document.createElement("option");
@@ -32,7 +38,17 @@ export default function Camera() {
     }
   }
 
-  async function getMedia(deviceID) {
+  async function getMedia(camerasSelect) {
+    let deviceID;
+    if (camerasSelect) {
+      console.log(camerasSelect);
+      deviceID = camerasSelect.value;
+      setSelectedCam(camerasSelect.innerText);
+    }
+    if (camerasSelect && !deviceID) {
+      return;
+    }
+
     const initialConstrains = {
       video: { facingMode: "environment" },
     };
@@ -49,6 +65,7 @@ export default function Camera() {
       if (videoRef.current) {
         videoRef.current.srcObject = isCameraOn ? myStream : null;
       }
+
       if (!deviceID) {
         await getCameras(); //카메라들정보 가져옴
       }
@@ -62,7 +79,6 @@ export default function Camera() {
 
   useEffect(() => {
     getMedia();
-
     return () => {
       // 컴포넌트가 언마운트되면 미디어 스트림 해제
       if (videoRef.current && videoRef.current.srcObject) {
@@ -85,13 +101,14 @@ export default function Camera() {
   };
 
   const ClickEvent = async (camerasSelect) => {
-    await getMedia(camerasSelect.value);
+    await getMedia(camerasSelect);
   };
 
   return (
     <div>
-      <h1>FOR DEVICE TEST</h1>
-      <h2>{camType}</h2>
+      <p>선택된 카메라:{selectedCam} </p>
+      <p>보이고 있는 카메라: {camType}</p>
+
       <select
         ref={selectRef}
         onChange={() => {
@@ -101,13 +118,19 @@ export default function Camera() {
           }
         }}
       >
-        <option>test</option>
+        <option value="null">test</option>
       </select>
       <button onClick={toggleCamera}>
         {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
       </button>
       <video ref={videoRef} autoPlay playsInline />
       <button onClick={capturePhoto}>사진 찍기</button>
+      <div>
+        <h3>모든 카메라</h3>
+        {camList.map((camera, key) => (
+          <li key={key}>{camera.label}</li>
+        ))}
+      </div>
       <div className="canvas-wrapper">
         {videoList.map((video, key) => {
           return <Canvas key={key} video={video} />;
