@@ -24,6 +24,7 @@ export default function Camera() {
 
       const currentCamera = myStream.getVideoTracks()[0];
       cameras.forEach((camera) => {
+        console.log(camera);
         const option = document.createElement("option");
         option.value = camera.deviceId;
         option.innerText = camera.label;
@@ -63,6 +64,7 @@ export default function Camera() {
       ); //사용자에게 미디어 입력장치 사용권한을 요청
 
       if (videoRef.current) {
+        setSelectedCam("탔다");
         videoRef.current.srcObject = isCameraOn ? myStream : null;
       }
 
@@ -128,7 +130,9 @@ export default function Camera() {
       <div>
         <h3>모든 카메라</h3>
         {camList.map((camera, key) => (
-          <li key={key}>{camera.label}</li>
+          <span>
+            <li key={key}>{camera.label}</li>
+          </span>
         ))}
       </div>
       <div className="canvas-wrapper">
