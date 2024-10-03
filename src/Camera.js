@@ -41,11 +41,6 @@ export default function Camera() {
       video: { deviceID: { exact: deviceID } },
     }; //해당 deviceid 카메라 요청 코드
 
-    if (!!deviceID) {
-      setCamType("TEST_TYPE");
-      return;
-    }
-
     try {
       myStream = await navigator.mediaDevices.getUserMedia(
         deviceID ? cameraConstrains : initialConstrains
