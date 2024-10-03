@@ -69,6 +69,7 @@ export default function Camera() {
       if (videoRef.current) {
         setDebug(debug + "\n" + "drawVideo");
         videoRef.current.srcObject = isCameraOn ? myStream : null;
+        videoRef.current.load();
       }
 
       if (!deviceID) {
@@ -106,6 +107,7 @@ export default function Camera() {
   };
 
   const ClickEvent = async (camerasSelect) => {
+    console.log("ref있음");
     await getMedia(camerasSelect);
   };
 
@@ -118,6 +120,8 @@ export default function Camera() {
       <select
         ref={selectRef}
         onChange={() => {
+          setDebug(debug + "\n" + selectRef);
+          console.log(selectRef);
           if (selectRef) {
             const options = selectRef.current.options;
             setDebug(debug + "\n" + "onChange");
