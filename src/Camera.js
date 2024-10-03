@@ -11,6 +11,7 @@ export default function Camera() {
   const [camType, setCamType] = useState("");
   const [camList, setCamList] = useState([]);
   const [selectedCam, setSelectedCam] = useState("");
+  const [debug, setDebug] = useState("start");
 
   /**
    * 카메라 정보를 가져온다.
@@ -64,7 +65,7 @@ export default function Camera() {
       ); //사용자에게 미디어 입력장치 사용권한을 요청
 
       if (videoRef.current) {
-        setSelectedCam("탔다");
+        setDebug(debug + "\n" + "drawVideo");
         videoRef.current.srcObject = isCameraOn ? myStream : null;
       }
 
@@ -108,6 +109,7 @@ export default function Camera() {
 
   return (
     <div>
+      <p>debug : {debug}</p>
       <p>선택된 카메라:{selectedCam} </p>
       <p>보이고 있는 카메라: {camType}</p>
 
