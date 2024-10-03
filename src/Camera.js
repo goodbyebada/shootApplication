@@ -4,6 +4,7 @@ export default function Camera() {
   const videoRef = useRef(null);
 
   const selectRef = useRef(null);
+  const [deviceId, setDeviceId] = useState(null);
   let myStream;
 
   const [isCameraOn, setIsCameraOn] = useState(true);
@@ -25,7 +26,6 @@ export default function Camera() {
 
       const currentCamera = myStream.getVideoTracks()[0];
       cameras.forEach((camera) => {
-        console.log(camera);
         const option = document.createElement("option");
         option.value = camera.deviceId;
         option.innerText = camera.label;
@@ -123,9 +123,10 @@ export default function Camera() {
           setDebug(debug + "\n" + selectRef);
           console.log(selectRef);
           if (selectRef) {
-            const options = selectRef.current.options;
-            setDebug(debug + "\n" + "onChange");
-            ClickEvent(options[options.selectedIndex]);
+            const option = selectRef.current.options;
+
+            ClickEvent(option[option.selectedIndex]);
+            setDeviceId(option[option.selectedIndex]);
           }
         }}
       >
@@ -134,7 +135,7 @@ export default function Camera() {
       <button onClick={toggleCamera}>
         {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
       </button>
-      <video ref={videoRef} autoPlay playsInline />
+      {deviceId ? <video ref={videoRef} autoPlay playsInline /> : ""}
       <button onClick={capturePhoto}>사진 찍기</button>
       <div>
         <h3>모든 카메라</h3>
