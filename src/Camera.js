@@ -2,9 +2,37 @@ import { useRef, useEffect, useState } from "react";
 import Canvas from "./canvas1";
 export default function Camera() {
   const videoRef = useRef(null);
+  const selectRef = useRef(null);
 
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [videoList, setVideoList] = useState([]);
+
+  async function getCameras() {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+
+      const cameras = devices.filter((device) => device.kind === "videoinput");
+      // const currentCamera = myStream.getVideoTracks()[0];
+      cameras.forEach((camera) => {
+        const option = document.createElement("option");
+        option.value = camera.deviceId;
+        option.innerText = camera.label;
+
+        selectRef.current.appendChild(option);
+        // if (currentCamera.label === camera.label) {
+        //   option.selected = true;
+        // }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    if (selectRef) {
+      getCameras();
+    }
+  }, []);
 
   useEffect(() => {
     const initCamera = async () => {
@@ -45,6 +73,7 @@ export default function Camera() {
 
   return (
     <div>
+      <select ref={selectRef}></select>
       <button onClick={toggleCamera}>
         {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
       </button>
