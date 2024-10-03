@@ -38,7 +38,7 @@ export default function Camera() {
     const initCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+          video: { facingMode: "environment" },
         });
         if (videoRef.current) {
           videoRef.current.srcObject = isCameraOn ? stream : null;
@@ -73,6 +73,7 @@ export default function Camera() {
 
   return (
     <div>
+      <h1>FOR DEVICE TEST</h1>
       <select ref={selectRef}></select>
       <button onClick={toggleCamera}>
         {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
