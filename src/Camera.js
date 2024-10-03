@@ -46,6 +46,7 @@ export default function Camera() {
       console.log(camerasSelect);
       deviceID = camerasSelect.value;
       setSelectedCam(camerasSelect.innerText);
+      setDebug(debug + "\n" + deviceID);
     }
     if (camerasSelect && !deviceID) {
       return;
@@ -63,6 +64,7 @@ export default function Camera() {
       myStream = await navigator.mediaDevices.getUserMedia(
         deviceID ? cameraConstrains : initialConstrains
       ); //사용자에게 미디어 입력장치 사용권한을 요청
+      setDebug(debug + "\n" + "myStream:" + myStream);
 
       if (videoRef.current) {
         setDebug(debug + "\n" + "drawVideo");
@@ -118,6 +120,7 @@ export default function Camera() {
         onChange={() => {
           if (selectRef) {
             const options = selectRef.current.options;
+            setDebug(debug + "\n" + "onChange");
             ClickEvent(options[options.selectedIndex]);
           }
         }}
