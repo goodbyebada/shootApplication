@@ -53,7 +53,7 @@ export default function Camera() {
     }
 
     const initialConstrains = {
-      video: { facingMode: "environment" },
+      video: { facingMode: "user" },
     };
 
     const cameraConstrains = {
