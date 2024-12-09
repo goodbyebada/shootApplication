@@ -5,6 +5,7 @@ function App() {
   return (
     <div className="App">
       <Camera />
+      <input type="file" id="camera" name="camera" />
     </div>
   );
 }
